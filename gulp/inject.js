@@ -15,6 +15,8 @@ gulp.task('inject', ['styles'], function () {
   ], { read: false });
 
   var injectScripts = gulp.src([
+    paths.src + '/assets/**/owl.carousel.min.js',
+    paths.src + '/assets/plugins/back-to-top.js',
     paths.src + '/{app,components}/**/*.js',
     '!' + paths.src + '/{app,components}/**/*.spec.js',
     '!' + paths.src + '/{app,components}/**/*.mock.js'

@@ -10,14 +10,11 @@ var $ = require('gulp-load-plugins')({
 
 gulp.task('partials', function () {
   return gulp.src([
-    paths.src + '/{app}/**/*.html',
-    paths.src + '/components/**/*.html',
+    paths.src + '/{app,components}/**/*.html',
     paths.tmp + '/{app,components}/**/*.html'
   ])
-    .pipe($.minifyHtml({
-      empty: true,
-      spare: true,
-      quotes: true
+    .pipe($.htmlMinifier({
+      collapseWhitespace: true
     }))
     .pipe($.angularTemplatecache('templateCacheHtml.js', {
       module: 'plantfinder'
@@ -54,10 +51,8 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.useref())
     .pipe($.revReplace())
     .pipe(htmlFilter)
-    .pipe($.minifyHtml({
-      empty: true,
-      spare: true,
-      quotes: true
+    .pipe($.htmlMinifier({
+      collapseWhitespace: true
     }))
     .pipe(htmlFilter.restore())
     .pipe(gulp.dest(paths.dist + '/'))
@@ -65,8 +60,8 @@ gulp.task('html', ['inject', 'partials'], function () {
 });
 
 gulp.task('images', function () {
-  return gulp.src(paths.src + '/assets/images/**/*')
-    .pipe(gulp.dest(paths.dist + '/assets/images/'));
+  return gulp.src(paths.src + '/assets/img/**/*')
+    .pipe(gulp.dest(paths.dist + '/assets/img/'));
 });
 
 gulp.task('fonts', function () {
@@ -81,8 +76,13 @@ gulp.task('misc', function () {
     .pipe(gulp.dest(paths.dist + '/'));
 });
 
+gulp.task('thirdjs', function () {
+  return gulp.src(paths.src + '/assets/**/*')
+    .pipe(gulp.dest(paths.dist + '/assets/'));
+});
+
 gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['html', 'images', 'fonts', 'misc']);
+gulp.task('build', ['html', 'images', 'fonts', 'misc', 'thirdjs']);
