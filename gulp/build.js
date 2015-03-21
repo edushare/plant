@@ -59,11 +59,6 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.size({ title: paths.dist + '/', showFiles: true }));
 });
 
-gulp.task('images', function () {
-  return gulp.src(paths.src + '/assets/img/**/*')
-    .pipe(gulp.dest(paths.dist + '/assets/img/'));
-});
-
 gulp.task('fonts', function () {
   return gulp.src($.mainBowerFiles())
     .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
@@ -76,7 +71,7 @@ gulp.task('misc', function () {
     .pipe(gulp.dest(paths.dist + '/'));
 });
 
-gulp.task('thirdjs', function () {
+gulp.task('assets', function () {
   return gulp.src(paths.src + '/assets/**/*')
     .pipe(gulp.dest(paths.dist + '/assets/'));
 });
@@ -85,4 +80,4 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['html', 'images', 'fonts', 'misc', 'thirdjs']);
+gulp.task('build', ['html', 'fonts', 'misc', 'assets']);
