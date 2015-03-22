@@ -14,13 +14,18 @@ gulp.task('inject', ['styles'], function () {
     '!' + paths.tmp + '/serve/app/vendor.css'
   ], { read: false });
 
+  var angularFilesFilter = $.filter('!' + paths.src + '/assets/**/*.js');
+
   var injectScripts = gulp.src([
     paths.src + '/assets/**/owl.carousel.min.js',
     paths.src + '/assets/plugins/back-to-top.js',
     paths.src + '/{app,components}/**/*.js',
     '!' + paths.src + '/{app,components}/**/*.spec.js',
     '!' + paths.src + '/{app,components}/**/*.mock.js'
-  ]).pipe($.angularFilesort());
+  ])
+  .pipe(angularFilesFilter)
+  .pipe($.angularFilesort())
+  .pipe(angularFilesFilter.restore());
 
   var injectOptions = {
     ignorePath: [paths.src, paths.tmp + '/serve'],
