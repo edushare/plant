@@ -11,14 +11,31 @@ angular.module('plantfinder', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize'
 
     $urlRouterProvider.otherwise('/');
   })
-.directive('owlCarousel', function() {
+.directive('owlCarousel', function($timeout) {
   return {
     restrict: 'A',
     scope: {
       owlOptions: '='
     },
     link: function(scope, element, attrs) {
-      $(element).owlCarousel(scope.owlOptions);
+      scope.$watch(attrs.owlOptions, function(value) {
+        $timeout(function() {
+          element.owlCarousel(scope.owlOptions);
+        });
+      });
+    },
+    controller: function($scope, $element, $attrs) {
+      if ($attrs.owlCarousel) {
+        $scope.$parent[$attrs.owlCarousel] = this;
+
+        this.prev = function() {
+          $element.trigger('owl.prev');
+        };
+
+        this.next = function() {
+          $element.trigger('owl.next');
+        };
+      }
     }
   };
 });

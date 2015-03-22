@@ -18,4 +18,12 @@ angular.module('plantfinder')
       paginationSpeed: 400,
       singleItem: false
     };
+
+    $scope.gotoPrev = function(owl) {
+      owl.prev();
+    };
+
+    $scope.gotoNext = function(owl) {
+      owl.next();
+    };
   });
