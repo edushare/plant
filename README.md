@@ -6,11 +6,16 @@ npm install -g gulp bower
 
 2. npm install
 
+npm install
+
 3. bower install
+
+bower install
 
 4. build & run
 
 1) run using tmp
+
 gulp serve
 
 2) clean
